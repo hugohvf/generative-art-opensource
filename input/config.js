@@ -2,7 +2,7 @@ const fs = require("fs");
 const width = 1000;
 const height = 1000;
 const dir = __dirname;
-const description = "This is an NFT made by the coolest generative code.";
+const description = "Satoshi Runners collection";
 const baseImageUri = "https://hashlips/nft";
 const startEditionFrom = 1;
 const endEditionAt = 10;
@@ -15,6 +15,125 @@ const raceWeights = [
   },
 ];
 
+const getAllLayersInDirectory = () => {
+  // path: `${dir}/1-background/LightBlue.png`,
+  var fs = require("fs");
+  var finalLayers = [];
+
+  var folder = fs.readdirSync("input/1-background/");
+
+  var backgrounds = fs.readdirSync("input/1-background/");
+  var body = fs.readdirSync("input/2-body/");
+  var shirts = fs.readdirSync("input/3-shirts/");
+  var pants = fs.readdirSync("input/4-pants/");
+  var belts = fs.readdirSync("input/5-belts/");
+  var handAccessories = fs.readdirSync("input/6-hand accessories/");
+  var mouthAccessories = fs.readdirSync("input/7-mouth accessories/");
+  var eyesAccessories = fs.readdirSync("input/8-eyes accessories/");
+  var helmets = fs.readdirSync("input/9-helmets/");
+  var jacketsAndHoodies = fs.readdirSync("input/10-jackets and hoodies/");
+
+  const getFolderName = (id) => {
+    var folderNames = [
+      'background',
+      'body',
+      'shirts',
+      'pants',
+      'belts',
+      'hand accessories',
+      'mouth accessories',
+      'eyes accessories',
+      'helmets',
+      'jackets and hoodies',
+    ];
+    
+    return folderNames[id];
+  };
+
+  var layers = [
+    backgrounds,
+    body,
+    shirts,
+    pants,
+    belts,
+    handAccessories,
+    mouthAccessories,
+    eyesAccessories,
+    helmets,
+    jacketsAndHoodies,
+  ];
+
+  finalLayers = 
+    layers.map((layerFiles, index) => {
+      var newIndex = index + 1;
+
+      layerFiles.forEach((file, index) => {
+        elements.push({
+          id: index,
+          name: String(file),
+          path: `${dir}/${newIndex}-${getFolderName(index + 1)}/${String(file)}`,
+          weight: 100,
+        })
+      });
+    });
+
+  return finalLayers;
+};
+
+const testHugo = () => {
+  const fs = require("fs")
+  const inputPath = "./input"
+  const files = fs.readdirSync(inputPath)
+  const dir = __dirname;
+
+  const layers = []
+
+  files.forEach(file => {
+    let numberPosition = 0
+    if (Number.isInteger(+file[0])) {
+      while (Number.isInteger(+file[numberPosition + 1]))
+        numberPosition++
+
+      const initialStringPosition = numberPosition + 2
+      const inputs = fs.readdirSync(`${inputPath}/${file}`)
+      const elementName = file.substring(initialStringPosition, initialStringPosition + 1).toUpperCase() + file.substring(initialStringPosition + 1)
+      const layer = {
+        name: elementName,
+        elements: [],
+        position: {
+          x: 0,
+          y: 0
+        },
+        size: {
+          width: "width",
+          height: "height"
+        },
+      }
+      inputs.forEach((input, index) => {
+        layer.elements.push({
+          id: index,
+          name: "Light blue",
+          path: `${dir}/${file}/${elementName}.gif`,
+          weight: 100,
+        })
+      })
+
+      layers.push(layer)
+    }
+  })
+
+  fs.writeFile('./layer.json', JSON.stringify(layers), err => {
+    if (err) {
+      console.error(err)
+      return
+    }
+  })
+};
+
+testHugo();
+
+// getAllLayersInDirectory();
+
 const races = {
   skull: {
     name: "Skull",
@@ -24,15 +143,21 @@ const races = {
         elements: [
           {
             id: 0,
-            name: "Light blue",
-            path: `${dir}/1-background/LightBlue.png`,
+            name: "Atlantic",
+            path: `${dir}/1-background/Atlantic.gif`,
             weight: 100,
           },
           {
-            id: 1,
-            name: "Orange",
-            path: `${dir}/1-background/Orange.png`,
-            weight: 80,
+            id: 0,
+            name: "Badlands",
+            path: `${dir}/1-background/Badlands.gif`,
+            weight: 100,
+          },
+          {
+            id: 0,
+            name: "Bastion",
+            path: `${dir}/1-background/Bastion.gif`,
+            weight: 100,
           },
         ],
         position: { x: 0, y: 0 },
